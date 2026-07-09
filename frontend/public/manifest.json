@@ -1,0 +1,9 @@
+{
+  "short_name": "Windkey",
+  "name": "Windkey Password Manager",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#2563EB",
+  "background_color": "#F9FAFB"
+}

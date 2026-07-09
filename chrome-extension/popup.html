@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Windkey Password Manager</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">Windkey</div>
+    </header>
+
+    <!-- Login Form -->
+    <div id="login-form" class="form-section">
+      <div class="form-container">
+        <h2>Anmelden</h2>
+        <form id="login" class="content-section" style="display: block;">
+          <div class="form-group">
+            <label for="email">E-Mail</label>
+            <input type="email" id="email" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Master-Passwort</label>
+            <input type="password" id="password" class="form-control" required>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Weiter</button>
+          </div>
+          <p id="login-error" class="error-text"></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- 2FA Form -->
+    <div id="twofa-form" class="form-section" style="display: none;">
+      <div class="form-container">
+        <h2>2FA Verifizierung</h2>
+        <p class="info-text">Bitte geben Sie den Code aus Ihrer Authenticator-App ein.</p>
+        <form id="twofa" class="content-section">
+          <div class="form-group">
+            <label for="2fa-code">2FA Code eingeben</label>
+            <input type="text" id="2fa-code" class="form-control" required pattern="[0-9]*" inputmode="numeric" maxlength="6">
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Bestätigen</button>
+          </div>
+          <p id="twofa-error" class="error-text"></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Password List -->
+    <div id="password-list" class="content-section" style="display: none;">
+      <div id="copy-feedback" class="copy-feedback">Kopiert!</div>
+      <div class="search-container">
+        <input type="text" id="search" placeholder="Suchen..." class="search-input">
+      </div>
+      
+      <div class="action-bar">
+        <button id="add-password" class="btn btn-primary">
+          <span class="btn-text">Neues Passwort</span>
+        </button>
+        <button id="sync" class="btn btn-secondary">
+          <span class="btn-text">Sync</span>
+        </button>
+        <button id="logout" class="btn btn-secondary">
+          <span class="btn-text">Abmelden</span>
+        </button>
+      </div>
+
+      <div id="fill-this-page" class="fill-banner" style="display: none;">
+        <span id="fill-this-page-label"></span>
+        <button id="fill-this-page-btn" class="btn btn-primary">Ausfüllen</button>
+      </div>
+
+      <div id="passwords-container" class="passwords-grid"></div>
+    </div>
+
+    <!-- Add Password Form -->
+    <div id="add-password-form" class="form-section" style="display: none;">
+      <div class="form-container">
+        <h2>Neues Passwort</h2>
+        <form id="new-password">
+          <div class="input-group">
+            <input type="text" id="title" placeholder="Titel" required>
+          </div>
+          <div class="input-group">
+            <input type="text" id="username" placeholder="Benutzername">
+          </div>
+          <div class="input-group password-group">
+            <input type="password" id="new-pass" placeholder="Passwort" required>
+            <div class="password-actions">
+              <button type="button" id="generate-password" class="btn btn-icon" title="Passwort generieren">
+                <span class="btn-text">Generieren</span>
+              </button>
+              <button type="button" id="toggle-password" class="btn btn-icon" title="Passwort anzeigen">
+                <span class="btn-text">Anzeigen</span>
+              </button>
+            </div>
+          </div>
+          <div class="input-group">
+            <input type="url" id="website" placeholder="Website URL">
+          </div>
+          <div class="input-group">
+            <textarea id="notes" placeholder="Notizen" rows="3"></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="button" id="cancel-add" class="btn btn-secondary">Abbrechen</button>
+            <button type="submit" class="btn btn-primary">Speichern</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
