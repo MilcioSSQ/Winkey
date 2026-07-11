@@ -138,6 +138,35 @@ Serves on `https://localhost:3000` (reachable from other devices via your LAN IP
 2. **Load unpacked** → select the `chrome-extension` folder
 3. Open the extension's options and set your server address
 
+## Screenshots
+
+<details>
+<summary><b>Login & 2FA</b></summary>
+
+| Login | 2FA |
+| --- | --- |
+| ![Login](screenshots/login.png) | ![2FA](screenshots/2fa.png) |
+
+</details>
+
+<details open>
+<summary><b>Dashboard</b></summary>
+
+| Dark Mode | Light Mode |
+| --- | --- |
+| ![Dashboard Dark](screenshots/dashboard-dark.png) | ![Dashboard Light](screenshots/dashboard-light.png) |
+
+</details>
+
+<details>
+<summary><b>Tools & Statistics</b></summary>
+
+| Tools | Statistics |
+| --- | --- |
+| ![Tools](screenshots/tools.png) | ![Statistics](screenshots/stats.png) |
+
+</details>
+
 ## Known Limitations
 
 - **Recovery key lost + master password forgotten = permanent data loss.** This is inherent to zero-knowledge encryption, not a bug.
