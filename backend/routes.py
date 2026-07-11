@@ -1,6 +1,7 @@
 import base64
 import hashlib
 import hmac
+import os
 import secrets
 from datetime import datetime, timedelta
 
@@ -146,7 +147,7 @@ def register():
         user.generate_2fa_secret()
 
         totp = pyotp.TOTP(user.two_factor_secret)
-        provisioning_uri = totp.provisioning_uri(user.email, issuer_name='Windkey')
+        provisioning_uri = totp.provisioning_uri(user.email, issuer_name='Winkey')
         qr = qrcode.QRCode(version=1, box_size=10, border=5)
         qr.add_data(provisioning_uri)
         qr.make(fit=True)
@@ -609,6 +610,62 @@ def check_password_breach():
         return jsonify({'suffixes': suffixes})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/check-email-breach', methods=['POST'])
+@login_required
+@limiter.limit("10 per minute")
+def check_email_breach():
+    """Unlike the password check, HaveIBeenPwned's account/email breach
+    search has no free k-anonymity mode - it requires a paid API key and the
+    email itself is sent to HIBP's servers (that's inherent to looking up
+    "which breaches include this email", not something we can avoid)."""
+    hibp_api_key = os.environ.get('HIBP_API_KEY', '').strip()
+    if not hibp_api_key:
+        return jsonify({
+            'error': 'HIBP_API_KEY nicht konfiguriert',
+            'configured': False,
+        }), 501
+
+    data = request.get_json() or {}
+    email = (data.get('email') or '').strip()
+    if not email or '@' not in email:
+        return jsonify({'error': 'Gültige E-Mail-Adresse erforderlich'}), 400
+
+    try:
+        response = requests.get(
+            f'https://haveibeenpwned.com/api/v3/breachedaccount/{email}',
+            headers={
+                'hibp-api-key': hibp_api_key,
+                'User-Agent': 'Winkey Password Manager',
+            },
+            params={'truncateResponse': 'false'},
+            timeout=10,
+        )
+        if response.status_code == 404:
+            return jsonify({'breached': False, 'breaches': []})
+        if response.status_code == 401:
+            return jsonify({'error': 'HIBP_API_KEY ist ungültig', 'configured': False}), 501
+        if response.status_code == 429:
+            return jsonify({'error': 'Zu viele Anfragen an HaveIBeenPwned - kurz warten und erneut versuchen'}), 429
+        if response.status_code != 200:
+            return jsonify({'error': f'HIBP API-Fehler ({response.status_code})'}), 502
+
+        breaches = response.json()
+        return jsonify({
+            'breached': True,
+            'breaches': [
+                {
+                    'name': b.get('Name'),
+                    'title': b.get('Title'),
+                    'breachDate': b.get('BreachDate'),
+                    'dataClasses': b.get('DataClasses', []),
+                }
+                for b in breaches
+            ],
+        })
+    except requests.RequestException as e:
+        return jsonify({'error': f'Verbindung zu HaveIBeenPwned fehlgeschlagen: {str(e)}'}), 502
 
 
 # ---- Categories (name is client-encrypted; icon/color are non-identifying) ----

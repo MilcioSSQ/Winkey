@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Grid,
@@ -22,6 +23,7 @@ import {
 } from '@mui/icons-material';
 
 export default function Tools() {
+  const navigate = useNavigate();
   const tools = [
     {
       id: 1,
@@ -29,6 +31,7 @@ export default function Tools() {
       description: 'Erstellen Sie starke, zufällige Passwörter',
       icon: <PasswordIcon />,
       category: 'GENERATOR',
+      path: '/tools/generator',
     },
     {
       id: 2,
@@ -36,6 +39,7 @@ export default function Tools() {
       description: 'Überprüfen Sie die Stärke Ihrer gespeicherten Passwörter',
       icon: <SecurityIcon />,
       category: 'SICHERHEIT',
+      path: '/stats',
     },
     {
       id: 3,
@@ -43,6 +47,7 @@ export default function Tools() {
       description: 'Prüfen Sie, ob Ihre Daten in bekannten Datenlecks gefunden wurden',
       icon: <DataUsageIcon />,
       category: 'SICHERHEIT',
+      path: '/tools/breach-scanner',
     },
     {
       id: 4,
@@ -50,6 +55,7 @@ export default function Tools() {
       description: 'Zwei-Faktor-Authentifizierungscodes (TOTP)',
       icon: <VerifiedUserIcon />,
       category: 'SICHERHEIT',
+      path: '/tools/authenticator',
     },
     {
       id: 5,
@@ -57,6 +63,7 @@ export default function Tools() {
       description: 'Importieren oder exportieren Sie Ihre Tresor-Daten',
       icon: <ImportExportIcon />,
       category: 'ANDERE',
+      path: '/tools/import-export',
     },
   ];
 
@@ -90,8 +97,8 @@ export default function Tools() {
                       transition: 'transform 0.2s, box-shadow 0.2s',
                       '&:hover': {
                         transform: 'translateY(-2px)',
-                        boxShadow: (theme) => 
-                          theme.palette.mode === 'dark' 
+                        boxShadow: (theme) =>
+                          theme.palette.mode === 'dark'
                             ? '0 4px 12px rgba(0, 0, 0, 0.45)'
                             : '0 4px 12px rgba(0, 0, 0, 0.25)',
                         cursor: 'pointer',
@@ -99,6 +106,7 @@ export default function Tools() {
                     }}
                   >
                     <ListItemButton
+                      onClick={() => navigate(tool.path)}
                       sx={{
                         height: '100%',
                         p: 2,

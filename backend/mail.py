@@ -37,10 +37,10 @@ def send_verification_email(to_email, raw_token):
     try:
         link = f'{FRONTEND_URL}/verify-email?token={raw_token}'
         msg = Message(
-            subject='Bestätige deine Windkey-E-Mail-Adresse',
+            subject='Bestätige deine Winkey-E-Mail-Adresse',
             recipients=[to_email],
             body=(
-                f'Willkommen bei Windkey!\n\n'
+                f'Willkommen bei Winkey!\n\n'
                 f'Bitte bestätige deine E-Mail-Adresse, um dein Konto zu aktivieren:\n'
                 f'{link}\n\n'
                 f'Dieser Link ist 24 Stunden gültig.'
@@ -60,12 +60,12 @@ def send_recovery_notification_email(to_email):
         return False
     try:
         msg = Message(
-            subject='Dein Windkey Master-Passwort wurde geändert',
+            subject='Dein Winkey Master-Passwort wurde geändert',
             recipients=[to_email],
             body=(
                 'Dein Master-Passwort wurde soeben über deinen Recovery Key geändert.\n\n'
                 'Warst du das nicht? Dann hat jemand Zugriff auf deinen Recovery Key erlangt - '
-                'kontaktiere den Administrator dieser Windkey-Installation sofort.'
+                'kontaktiere den Administrator dieser Winkey-Installation sofort.'
             ),
         )
         mail.send(msg)

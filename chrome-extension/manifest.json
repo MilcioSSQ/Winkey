@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Windkey Password Manager",
+  "name": "Winkey Password Manager",
   "version": "2.0",
   "description": "Zero-knowledge password management for your browser",
   "permissions": [

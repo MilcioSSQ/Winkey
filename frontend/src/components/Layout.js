@@ -333,7 +333,7 @@ export default function Layout() {
                   letterSpacing: '-0.02em',
                 }}
               >
-                Windkey
+                Winkey
               </Typography>
             )}
           </Box>
@@ -408,7 +408,7 @@ export default function Layout() {
         <Box sx={{ width: 260 }} role="presentation" onClick={() => setMobileNavOpen(false)}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 2 }}>
             <SecurityIcon sx={{ color: '#2563EB', fontSize: 28 }} />
-            <Typography variant="h6" sx={{ fontWeight: 700 }}>Windkey</Typography>
+            <Typography variant="h6" sx={{ fontWeight: 700 }}>Winkey</Typography>
           </Box>
           <List>
             {navItems.map((item) => (

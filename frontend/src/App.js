@@ -12,6 +12,10 @@ import Layout from './components/Layout';
 import Tools from './components/Tools';
 import Stats from './components/Stats';
 import History from './components/History';
+import PasswordGeneratorTool from './components/PasswordGeneratorTool';
+import Authenticator from './components/Authenticator';
+import ImportExport from './components/ImportExport';
+import BreachScanner from './components/BreachScanner';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 
@@ -248,6 +252,10 @@ function ThemedApp() {
                 <Route path="tools" element={<Tools />} />
                 <Route path="stats" element={<Stats />} />
                 <Route path="history" element={<History />} />
+                <Route path="tools/generator" element={<PasswordGeneratorTool />} />
+                <Route path="tools/authenticator" element={<Authenticator />} />
+                <Route path="tools/import-export" element={<ImportExport />} />
+                <Route path="tools/breach-scanner" element={<BreachScanner />} />
               </Route>
             </Route>
           </Routes>

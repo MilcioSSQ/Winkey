@@ -1,5 +1,5 @@
 /**
- * Windkey's zero-knowledge crypto core.
+ * Winkey's zero-knowledge crypto core.
  *
  * KEEP THIS FILE BYTE-IDENTICAL to chrome-extension/vendor/windkeyCrypto.js
  * (copy, don't hand-reimplement) - the React app and the extension both
@@ -178,6 +178,59 @@ export async function wrapKey(rawKeyToWrap, wrappingKeyBytes) {
 
 export async function unwrapKey(wrappedB64, ivB64, wrappingKeyBytes) {
   return aesGcmDecrypt(wrappingKeyBytes, fromBase64(wrappedB64), fromBase64(ivB64));
+}
+
+// ---- TOTP (RFC 6238) for the in-vault "Authenticator" tool ----
+// This computes 2FA codes for OTHER services' secrets that a user chooses to
+// store in their own vault entries (e.g. GitHub, a work account) - unrelated
+// to Winkey's own login 2FA, which is verified server-side via pyotp. The
+// secret is decrypted vault data, so the code is computed entirely
+// client-side, same as everything else in the vault.
+
+const BASE32_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+
+function base32Decode(base32) {
+  const clean = base32.toUpperCase().replace(/[^A-Z2-7]/g, '');
+  let bits = '';
+  for (const char of clean) {
+    const val = BASE32_ALPHABET.indexOf(char);
+    if (val === -1) continue;
+    bits += val.toString(2).padStart(5, '0');
+  }
+  const bytes = [];
+  for (let i = 0; i + 8 <= bits.length; i += 8) {
+    bytes.push(parseInt(bits.substr(i, 8), 2));
+  }
+  return new Uint8Array(bytes);
+}
+
+/** Computes the current 6-digit TOTP code for a base32 secret (RFC 6238, SHA-1, 30s step). */
+export async function computeTotp(secretBase32, { timeStep = 30, digits = 6, timestampMs = Date.now() } = {}) {
+  const keyBytes = base32Decode(secretBase32);
+  if (keyBytes.length === 0) throw new Error('Invalid TOTP secret');
+
+  const counter = Math.floor(timestampMs / 1000 / timeStep);
+  const counterBytes = new Uint8Array(8);
+  let c = counter;
+  for (let i = 7; i >= 0; i--) {
+    counterBytes[i] = c & 0xff;
+    c = Math.floor(c / 256);
+  }
+
+  const cryptoKey = await crypto.subtle.importKey('raw', keyBytes, { name: 'HMAC', hash: 'SHA-1' }, false, ['sign']);
+  const hmac = new Uint8Array(await crypto.subtle.sign('HMAC', cryptoKey, counterBytes));
+  const offset = hmac[hmac.length - 1] & 0xf;
+  const binary =
+    ((hmac[offset] & 0x7f) << 24) |
+    ((hmac[offset + 1] & 0xff) << 16) |
+    ((hmac[offset + 2] & 0xff) << 8) |
+    (hmac[offset + 3] & 0xff);
+  return (binary % 10 ** digits).toString().padStart(digits, '0');
+}
+
+/** Seconds remaining in the current TOTP time step - drives the countdown UI. */
+export function totpSecondsRemaining(timeStep = 30, timestampMs = Date.now()) {
+  return timeStep - (Math.floor(timestampMs / 1000) % timeStep);
 }
 
 // ---- Recovery Key generation (human-facing) ----

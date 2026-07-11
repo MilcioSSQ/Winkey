@@ -8,8 +8,8 @@ chrome.runtime.onMessage.addListener((request) => {
   if (request.action === 'formDetected') {
     chrome.notifications.create({
       type: 'basic',
-      title: 'Windkey',
-      message: 'Login-Formular erkannt. Öffne Windkey, um gespeicherte Zugangsdaten auf dieser Seite auszufüllen.',
+      title: 'Winkey',
+      message: 'Login-Formular erkannt. Öffne Winkey, um gespeicherte Zugangsdaten auf dieser Seite auszufüllen.',
     });
   }
 });
@@ -18,7 +18,7 @@ chrome.runtime.onInstalled.addListener(({ reason }) => {
   if (reason === 'install') {
     chrome.notifications.create({
       type: 'basic',
-      title: 'Willkommen bei Windkey',
+      title: 'Willkommen bei Winkey',
       message: 'Klicke auf das Symbol in der Toolbar, um dich anzumelden und loszulegen.',
     });
   }

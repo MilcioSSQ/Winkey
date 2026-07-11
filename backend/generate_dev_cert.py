@@ -1,7 +1,7 @@
 """
 Generates a self-signed TLS certificate for local/LAN development.
 
-Windkey's zero-knowledge crypto relies on the browser's WebCrypto API
+Winkey's zero-knowledge crypto relies on the browser's WebCrypto API
 (crypto.subtle), which browsers only expose in "secure contexts" - that's
 https:// or http://localhost, but NOT plain http://192.168.x.x. Since family
 members reach this server over the LAN by IP, both the Flask API and the
@@ -59,7 +59,7 @@ def main():
     key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
 
     subject = issuer = x509.Name([
-        x509.NameAttribute(NameOID.COMMON_NAME, "Windkey Local Dev"),
+        x509.NameAttribute(NameOID.COMMON_NAME, "Winkey Local Dev"),
     ])
 
     san_entries = [
