@@ -5,7 +5,7 @@ A self-hosted, zero-knowledge password manager for your home network. Built with
 > **Originally created by [Hood Informatik](https://github.com/hoodinformatik)** ([Windkey](https://github.com/hoodinformatik/Windkey)) — continued and finished by [MilcioSSQ](https://github.com/MilcioSSQ).
 
 ---
-  
+
 ## Screenshots
 
 > Add your own screenshots to a `screenshots/` folder in this repo with the filenames below before publishing — this section expects them to exist and will show broken images otherwise.
