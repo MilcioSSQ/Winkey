@@ -6,6 +6,37 @@ A self-hosted, zero-knowledge password manager for your home network. Built with
 
 ---
 
+## Screenshots
+
+<details open>
+<summary><b>Login & Registration</b></summary>
+
+| Login | Register | Recovery |
+| --- | --- | --- |
+| ![Login](screenshots/login.png) | ![Register](screenshots/register.png) | ![2FA Setup](screenshots/2fa-setup.png) |
+
+</details>
+
+<details open>
+<summary><b>Dashboard</b></summary>
+
+| Dark Mode | Light Mode |
+| --- | --- |
+| ![Dashboard Dark](screenshots/dashboard-dark.png) | ![Dashboard Light](screenshots/dashboard-light.png) |
+
+</details>
+
+<details open>
+<summary><b>Tools & Statistics</b></summary>
+
+| Tools | Statistics |
+| --- | --- |
+| ![Tools](screenshots/tools.png) | ![Statistics](screenshots/stats.png) |
+
+</details>
+
+---
+
 ## Features
 
 - **Zero-knowledge encryption** — Argon2id key derivation + AES-256-GCM, entirely client-side. The server never sees your master password or decrypted vault.
