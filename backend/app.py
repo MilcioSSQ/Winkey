@@ -17,7 +17,7 @@ load_dotenv()
 
 SECRET_KEY_FILE = 'secret.key'
 
-
+        
 def get_or_create_secret_key():
     env_key = os.environ.get('SECRET_KEY')
     if env_key and env_key != 'your-super-secret-key-change-this-in-production':
